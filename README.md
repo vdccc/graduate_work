@@ -1,8 +1,8 @@
-==== Task Tracker
+#### Task Tracker
 
-Urls:
-`/schema` - Swagger
+##### Urls:
+`/schema` - Swagger\
 
-Commands:
-`docker compose up` - to start the app
-`docker compose --profile test up test` - to run the tests
+##### Commands:
+`docker compose up` - to start the app\
+`docker compose --profile test up test` - to run the tests\
