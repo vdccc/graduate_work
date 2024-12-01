@@ -1,0 +1,14 @@
+FROM alpine
+WORKDIR /usr/src/app
+RUN apk add --no-cache \
+        python3 \
+        poetry
+COPY pyproject.toml pyproject.toml
+RUN python -m venv "/venv"
+ENV VIRTUAL_ENV "/venv"
+ENV PATH "$VIRTUAL_ENV:${PATH}"
+RUN poetry install
+COPY graduate_work graduate_work
+COPY tracker tracker
+COPY manage.py manage.py
+CMD [ "poetry", "run", "python", "manage.py", "migrate" ] 
