@@ -3,10 +3,15 @@ from tracker.models import Employee, Board, Task
 
 # Create your tests here.
 
+
 class TestTaskCreation(TestCase):
     def setUp(self):
-        employeeA = Employee.objects.create(full_name="John Doe", position="test subject")
-        employeeB = Employee.objects.create(full_name="Jack Poe", position="test supervisor")
+        employeeA = Employee.objects.create(
+            full_name="John Doe", position="test subject"
+        )
+        employeeB = Employee.objects.create(
+            full_name="Jack Poe", position="test supervisor"
+        )
         board = Board.objects.create(title="Main")
         taskC = Task.objects.create(
             title="Test Task C",
@@ -55,4 +60,3 @@ class TestTaskCreation(TestCase):
     def test_important_tasks(self):
         tasks = Task.important().all()
         self.assertEqual(tasks[0].title, "Test Task D")
-
