@@ -16,6 +16,16 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+  test:
+    profiles: [test]
+    build: 
+      context: .
+      dockerfile: Dockerfile.test
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate: 
+        condition: service_completed_successfully
   postgres:
     image: postgres:16
     environment:

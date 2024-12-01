@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q, Count
 
 
 class Employee(models.Model):
@@ -8,6 +9,17 @@ class Employee(models.Model):
     def __str__(self):
         return self.full_name
 
+    def busy():
+        queryset = Employee.objects.annotate(
+            active_tasks=Count('assigned_tasks', filter=Q(assigned_tasks__open=True))
+        ).order_by('-active_tasks')
+        return queryset
+
+    def least_busy():
+        queryset = Employee.objects.annotate(
+            active_tasks=Count('assigned_tasks', filter=Q(assigned_tasks__open=True))
+        ).order_by('active_tasks')
+        return queryset
 
 class Board(models.Model):
     title = models.CharField(max_length=50)
@@ -30,7 +42,7 @@ class Task(models.Model):
                                   related_name='assigned_tasks') 
     due_date = models.DateField(null=True,
                                  blank=True)
-    completed = models.BooleanField(default=False)
+    open = models.BooleanField(default=True)
     board = models.ForeignKey(Board,
                                related_name='tasks',
                                on_delete=models.CASCADE,
@@ -39,3 +51,11 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+    def important():
+        unassigned = Task.objects.filter(
+             assignee__isnull=True,
+             parent_task__isnull=False,
+             parent_task__assignee__isnull=False,
+        )
+        return unassigned

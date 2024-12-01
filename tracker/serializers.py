@@ -26,3 +26,9 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
             "completed",
             "board",
         ]
+
+
+class PickSerializer(serializers.Serializer):
+    task_id = serializers.IntegerField()
+    due_date = serializers.DateField()
+    employee_full_name = serializers.CharField(max_length=255)
